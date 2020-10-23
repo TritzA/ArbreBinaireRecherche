@@ -60,7 +60,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
         boolean find = false;
         boolean lastLeft = true;
         if (root.value.equals(value)) {//if the root is the value, remove it
-            root = new BinaryNode<ValueType>(null, null);
+            root = null;
         } else {
             while (!find) {
                 if (node.value.equals(value)) {//if we find the value, remove it
@@ -103,9 +103,6 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
 
         while (true) {
             if (node == null) {//if we finally get a null
-                return false;
-
-            } else if (node.value == null) {//if we finally get a null TODO:try to fixe both first and second conditions into only one
                 return false;
 
             } else if (value.compareTo(node.value) < 0) {//search the variable by going to the left
