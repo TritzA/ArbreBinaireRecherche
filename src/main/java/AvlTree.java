@@ -1,3 +1,5 @@
+import org.w3c.dom.Node;
+
 import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,7 +58,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      * @param value value to remove from the tree
      */
     public void remove(ValueType value) {
-        BinaryNode<ValueType> node = root;
+        BinaryNode<ValueType> node = root.left;
         boolean find = false;
         boolean lastLeft = true;
         if (root.value.equals(value)) {//if the root is the value, remove it
@@ -65,9 +67,17 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
             while (!find) {
                 if (node.value.equals(value)) {//if we find the value, remove it
                     System.out.println("ici" + node.value);
-                    if (lastLeft) {
+                    /*if( node.left != null && node.right != null ) // Cas deux enfants
+                    {
+                        node.parent = findMin( node.right ).element;
+                        node.right = remove( node.element, node.right );
+                    }
+                    else // Cas trivial
+                        node = ( node.left != null ) ? node.left : node.right;
+                    */
+                    if (lastLeft)
                         node.parent.left = null;
-                    } else {
+                    else {
                         node.parent.right = null;
                     }
                     find = true;
@@ -161,6 +171,8 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
         }
 
         do {
+            if (node.left == null)
+                return node.value;
             node = node.left;
         } while (node.left != null);
 
@@ -175,7 +187,16 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      * @return Values contained in the root tree in ascending order
      */
     public List<ValueType> infixOrder() {
-        return new LinkedList<>();
+        LinkedList<ValueType> oC = new LinkedList();
+        AvlTree<ValueType> t = this;
+        ValueType min;
+        while(t.root != null) {
+            min = t.findMin();
+
+            oC.add(min);
+            t.remove(min);
+        }
+        return oC;
     }
 
     /**
@@ -208,7 +229,9 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      * @param node1 Node to become child of its left child
      */
     private void rotateLeft(BinaryNode<ValueType> node1) {
-
+        ValueType nP = node1.value;
+        node1.value = node1.left.value;
+        node1.left.value = nP;
     }
 
     /**
@@ -219,7 +242,9 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      * @param node1 Node to become child of its right child
      */
     private void rotateRight(BinaryNode<ValueType> node1) {
-
+        ValueType nP = node1.value;
+        node1.value = node1.right.value;
+        node1.right.value = nP;
     }
 
     static private class BinaryNode<ValueType> {
