@@ -1,6 +1,6 @@
 # ArbreBinaire
 
-Implémentation et utilisation d'un arbre binaire.
+Implémentation et utilisation d'un arbre binaire de recherche.
 
 Laboratoire : 3/5
 
