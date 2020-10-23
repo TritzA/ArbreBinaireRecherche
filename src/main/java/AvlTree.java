@@ -20,10 +20,10 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      * @param value value to add to the tree
      */
     public void add(ValueType value) {
-        BinaryNode<ValueType> node = root;
+        BinaryNode<ValueType> node = this.root;
         boolean findPlace = false;
-        if (root == null) {//put the value at the root if the tree is empty
-            root = new BinaryNode<ValueType>(value, null);
+        if (this.root == null) {//put the value at the root if the tree is empty
+            this.root = new BinaryNode<ValueType>(value, null);
         } else {
 
             do {
@@ -56,11 +56,11 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      * @param value value to remove from the tree
      */
     public void remove(ValueType value) {
-        BinaryNode<ValueType> node = root;
+        BinaryNode<ValueType> node = this.root;
         boolean find = false;
         boolean lastLeft = true;
-        if (root.value.equals(value)) {//if the root is the value, remove it
-            root = null;
+        if (this.root.value.equals(value)) {//if the root is the value, remove it
+            this.root = null;
         } else {
             while (!find) {
                 if (node.value.equals(value)) {//if we find the value, remove it
@@ -99,7 +99,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      * @return if value already exists in the tree
      */
     public boolean contains(ValueType value) {
-        BinaryNode<ValueType> node = root;
+        BinaryNode<ValueType> node = this.root;
 
         while (true) {
             if (node == null) {//if we finally get a null
@@ -124,7 +124,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      * @return Max level contained in our root tree
      */
     public int getHeight() {
-        return heightNode(root);//O ( log n )??
+        return heightNode(this.root);//O ( log n )??
     }
 
     /**
@@ -138,10 +138,12 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
         if (node == null) {
             return -1;
         } else {
-            if (heightNode(node.left) > heightNode(node.right)){//optimizable ?
-                return heightNode(node.left) + 1;
+            int heightRight =heightNode(node.left) ;
+                    int heightLeft = heightNode(node.right);
+            if (heightLeft > heightRight){//optimizable ?
+                return heightLeft + 1;
             }else{
-                return heightNode(node.right) + 1;
+                return heightRight + 1;
             }
         }
     }
