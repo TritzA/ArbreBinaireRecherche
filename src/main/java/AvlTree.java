@@ -110,6 +110,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
 
             } else if (value.compareTo(node.value) > 0) {//search the variable by going to the right
                 node = node.right;
+
             } else {//final case (else if (node.value == value))
                 return true;
             }
