@@ -138,11 +138,11 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
         if (node == null) {
             return -1;
         } else {
-            int heightRight =heightNode(node.left) ;
-                    int heightLeft = heightNode(node.right);
-            if (heightLeft > heightRight){//optimizable ?
+            int heightRight = heightNode(node.left);
+            int heightLeft = heightNode(node.right);
+            if (heightLeft > heightRight) {//optimizable ?
                 return heightLeft + 1;
-            }else{
+            } else {
                 return heightRight + 1;
             }
         }
@@ -188,7 +188,34 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      * @return Values contained in the root tree in level order from top to bottom
      */
     public List<ValueType> levelOrder() {
-        return new LinkedList<>();
+        BinaryNode<ValueType> node;
+        LinkedList<BinaryNode> listNode = new LinkedList<BinaryNode>();
+        LinkedList<ValueType> listValue = new LinkedList<ValueType>();
+
+        int n = getHeight();
+        int maxNbElem = ((n) * (2 * n + 1) * (n + 1)) / (6);//sum SIGMA(n^2) form [0; height]
+
+        listNode.add(root);
+        listValue.add(root.value);
+
+        for (int i = 0; i < maxNbElem; i++) {
+            node = listNode.get(i);//with this node, we will add his 2 children
+
+            if (node.left == null) {
+                return listValue;//it ends if we find a null
+            } else {
+                listNode.add(node.left);//left child
+                listValue.add(node.left.value);
+            }
+
+            if (node.right == null) {
+                return listValue;//it ends if we find a null
+            } else {
+                listNode.add(node.right);//right child
+                listValue.add(node.right.value);
+            }
+        }
+        return listValue;
     }
 
     /**
