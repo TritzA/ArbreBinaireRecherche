@@ -149,9 +149,13 @@ class AvlTreeTest {
         tree.add(1);
         tree.add(2);
 
+        tree.getRoot();
+        tree.getRootL();
+        tree.getRootR();
         assertEquals(tree.getHeight(), 1);
 
         List<Integer> sortedList = IntStream.range(0, 3).boxed().collect(Collectors.toList());
+        System.out.println(sortedList+"dsfdonfiandsfioaisudbfiabds");//[0, 1, 2]
         assertEquals(sortedList, tree.infixOrder());
     }
 

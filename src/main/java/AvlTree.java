@@ -1,6 +1,7 @@
 import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 public class AvlTree<ValueType extends Comparable<? super ValueType>> {
 
@@ -8,6 +9,30 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
     private BinaryNode<ValueType> root;
 
     public AvlTree() {
+    }
+
+    public void getRoot() {
+        if (root == null) {
+            System.out.println("null");
+        } else {
+            System.out.println(root.value);
+        }
+    }
+
+    public void getRootR() {
+        if (root.right == null) {
+            System.out.println("null");
+        } else {
+            System.out.println(root.right.value);
+        }
+    }
+
+    public void getRootL() {
+        if (root.left == null) {
+            System.out.println("null");
+        } else {
+            System.out.println(root.left.value);
+        }
     }
 
     /**
@@ -177,8 +202,24 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      * @return Values contained in the root tree in ascending order
      */
     public List<ValueType> infixOrder() {
-        return new LinkedList<>();
+        LinkedList<ValueType> listValue = new LinkedList<ValueType>();
+        Stack<BinaryNode> stack = new Stack<>();
+        BinaryNode node = this.root;
+
+        while (node != null || stack.size() != 0) {//going through the tree
+
+            while (node != null) {//going to the left util we got a null
+                stack.push(node);
+                node = node.left;
+            }
+
+            node = stack.pop();
+            listValue.add((ValueType) node.value);
+            node = node.right;
+        }
+        return listValue;
     }
+
 
     /**
      * TODO Worst case : O( n ) HAS TO BE ITERATIVE, NOT RECURSIVE
@@ -195,8 +236,8 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
         int n = getHeight();
         int maxNbElem = ((n) * (2 * n + 1) * (n + 1)) / (6);//sum SIGMA(n^2) form [0; height]
 
-        listNode.add(root);
-        listValue.add(root.value);
+        listNode.add(this.root);
+        listValue.add(this.root.value);
 
         for (int i = 0; i < maxNbElem; i++) {
             node = listNode.get(i);//with this node, we will add his 2 children
@@ -248,7 +289,15 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      * @param node1 Node to become child of its right child
      */
     private void rotateRight(BinaryNode<ValueType> node1) {
+        BinaryNode<ValueType> newTop = node1.right;
+        BinaryNode<ValueType> oldParent = node1.parent;
+        node1.right = null;
+        node1.parent = newTop;
+        newTop.left = node1;
+        newTop.parent = oldParent;
+        if (oldParent != null) {
 
+        }
     }
 
     static private class BinaryNode<ValueType> {
