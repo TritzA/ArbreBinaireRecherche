@@ -165,10 +165,10 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
         } else {
             int heightRight = heightNode(node.left);
             int heightLeft = heightNode(node.right);
-            if (heightLeft > heightRight) {//optimizable ?
-                return heightLeft + 1;
+            if (heightLeft > heightRight) {
+                return heightLeft + 1;//add left height
             } else {
-                return heightRight + 1;
+                return heightRight + 1;//add right height
             }
         }
     }
