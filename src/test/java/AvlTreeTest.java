@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.*;
@@ -121,12 +122,17 @@ class AvlTreeTest {
         assertEquals(2, tree.getHeight());
         tree.add(4);
         assertEquals(2, tree.getHeight());
-        tree.add(6);
+        tree.add(7);
         assertEquals(2, tree.getHeight());
 
         // Third level
-        tree.add(7);
+        tree.add(8);
+        tree.add(6);
         assertEquals(3, tree.getHeight());
+
+        tree.remove(8);//ajout
+
+        assertEquals(3, tree.getHeight());//ajout
     }
 
     @Test
@@ -145,13 +151,13 @@ class AvlTreeTest {
 
     @Test
     public void rotateRightPerfectCase(){
+        System.out.println("Ajout 0:");
         tree.add(0);
+        System.out.println("Ajout 1:");
         tree.add(1);
+        System.out.println("Ajout 2:");
         tree.add(2);
 
-        tree.getRoot();
-        tree.getRootL();
-        tree.getRootR();
         assertEquals(tree.getHeight(), 1);
 
         List<Integer> sortedList = IntStream.range(0, 3).boxed().collect(Collectors.toList());
@@ -186,6 +192,7 @@ class AvlTreeTest {
 
         tree.remove(0);
 
+        tree.getRootL();
         assertEquals(2, tree.getHeight());
 
         List<Integer> sortedList = IntStream.range(1, 7).boxed().collect(Collectors.toList());
@@ -239,6 +246,7 @@ class AvlTreeTest {
         tree.remove(toRemove);
 
         List<Integer> sortedList = IntStream.range(0, 11).boxed().filter(num -> !num.equals(toRemove)).collect(Collectors.toList());
+        System.out.println(sortedList);
         assertEquals(sortedList, tree.infixOrder());
     }
 
@@ -266,7 +274,10 @@ class AvlTreeTest {
         List<Integer> sortedList = IntStream.range(0, n).boxed().collect(Collectors.toList());
 
         // Insertion to the left
-        for (int i = n - 1; i >= 0; --i){ tree.add(i); }
+        for (int i = n - 1; i >= 0; --i){
+            tree.add(i);
+            System.out.println(tree.levelOrder());
+        }
 
         assertEquals(expectedHeight, tree.getHeight());
         assertEquals(sortedList, tree.infixOrder());
