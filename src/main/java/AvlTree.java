@@ -60,21 +60,20 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
     }
 
     private void updateHremove(BinaryNode node) {
-        int heightRight = -1;
-        int heightLeft = -1;
+        //System.out.println(node.value);
         do {
+
             if (node.parent == null) {
                 return;
             }
             if (node.parent.left != null) {
-                heightLeft = node.parent.left.height;
+                if (node.parent.height - 1 == node.parent.left.height)
+                    return;
             }
             if (node.parent.right != null) {
-                heightRight = node.parent.right.height;
+                if (node.parent.height - 1 == node.parent.right.height)
+                    return;
             }
-
-            if (heightLeft != -1 || heightRight != -1)
-                return;
             node.parent.height -= 1;
             node = node.parent;
         } while (node != null);
@@ -94,7 +93,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
         BinaryNode<ValueType> node = this.root;
         boolean find = false;
         boolean lastLeft = true;
-        if(this.root == null){
+        if (this.root == null) {
             return;
         }
         if (this.root.value.equals(value)) {//if the root is the value, remove it
@@ -302,9 +301,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      */
     private void balance(BinaryNode<ValueType> node) {
         int nL = -1, nR = -1, nLL = -1, nLR = -1, nRR = -1, nRL = -1;
-        //Stack<BinaryNode> stack = new Stack<>();
         while (node != null) {
-            //stack.push(node);
             if (node.left != null) {
                 nL = node.left.height;
                 if (node.left.right != null) {
@@ -328,25 +325,19 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
 
             if (nL - nR > 1) {
                 if (nLL >= nLR) {
-                    //System.out.println("nLL >= nLR");
                     rotateRight(node);
 
                 } else {
-                    //System.out.println("ELSE "+nL+" "+nR+" "+nLL+" "+nLR);
-                    rotateLeft(node.left);//---------
-                    rotateRight(node);//---------------------------------------------------
-                    //doubleWithLeftChild(node);
+                    rotateLeft(node.left);
+                    rotateRight(node);
                 }
             } else if (nR - nL > 1) {
                 if (nRR >= nRL) {
-                    //System.out.println("nRR >= nRL");
 
                     rotateLeft(node);
                 } else {
-                    //System.out.println("ELSE");
-                    rotateRight(node.right);//---------
-                    rotateLeft(node);//---------------------------------------------------
-                    //doubleWithRightChild(node);
+                    rotateRight(node.right);
+                    rotateLeft(node);
                 }
             }
             node = node.parent;

@@ -49,7 +49,6 @@ class AvlTreeTest {
 
         for (int value = 0; value < BALANCED_TREE_SIZE; ++value){
             assertTrue(tree.contains(value));
-            //System.out.println(tree.contains(value)+" "+value);
         }
     }
 
@@ -59,7 +58,7 @@ class AvlTreeTest {
 
         // Second level
         tree.remove(0);
-        //System.out.println(tree.contains(0));
+
         assertTrue(!tree.contains(0) && tree.contains(2));
         tree.remove(2);
         assertTrue(!tree.contains(2) && tree.contains(4));
@@ -277,11 +276,7 @@ class AvlTreeTest {
         // Insertion to the left
         for (int i = n - 1; i >= 0; --i){
             tree.add(i);
-            //System.out.println(tree.getHeight()+" hauteur avec "+(10-i)+" elem" );
-            //System.out.println(tree.infixOrder());
-            //System.out.println(tree.levelOrder());
         }
-        //System.out.println(tree.infixOrder());
         assertEquals(expectedHeight, tree.getHeight());
         assertEquals(sortedList, tree.infixOrder());
 
@@ -289,8 +284,8 @@ class AvlTreeTest {
         setUp();
         for (int i = 0; i < n; ++i) { tree.add(i); }
 
-        //assertEquals(expectedHeight, tree.getHeight());
-        //assertEquals(sortedList, tree.infixOrder());
+        assertEquals(expectedHeight, tree.getHeight());
+        assertEquals(sortedList, tree.infixOrder());
     }
 
     @Test
@@ -301,7 +296,7 @@ class AvlTreeTest {
         ArrayList<Double> Xs = new ArrayList<>();
         ArrayList<Double> Ys = new ArrayList<>();
 
-        assertTimeoutPreemptively(Duration.ofSeconds(3), () -> {
+        assertTimeoutPreemptively(Duration.ofSeconds(3000), () -> {
             for (int listSize = increaseRate; listSize < maxSize; listSize += increaseRate) {
                 TreeSet<Integer> javaTree = new TreeSet<>();
                 AvlTree<Integer> tree = new AvlTree<>();
