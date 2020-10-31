@@ -20,15 +20,15 @@ class InterviewTest {
     @Test
     void rectangleShape() {
         Interview<Integer> interview = new Interview<>(new Integer[][] {
-                {1,2,5,18},
-                {29,67,98,99},
+                {1,  2,  5,  18},
+                {29, 67, 98, 99},
                 {100,245,900,950}
         });
 
         assertTrue(interview.contains(1));
         assertTrue(interview.contains(67));
         assertTrue(interview.contains(950));
-
+        assertFalse(interview.contains(1950));
         assertFalse(interview.contains(35));
     }
 
@@ -41,10 +41,10 @@ class InterviewTest {
                 {1035}
         });
 
-        assertTrue(interview.contains(5));
+        assertTrue(interview.contains(5));//ok
         assertTrue(interview.contains(245));
-        assertTrue(interview.contains(1000));
-        assertTrue(interview.contains(1035));
+        assertTrue(interview.contains(1000));//ok
+        assertTrue(interview.contains(1035));//ok
 
         assertFalse(interview.contains(3));
     }

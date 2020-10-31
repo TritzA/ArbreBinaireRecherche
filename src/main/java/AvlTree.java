@@ -47,8 +47,6 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
             } while (!findPlace);
             updateHadd(node);
             balance(node.parent);
-
-
         }
     }
 
@@ -64,24 +62,22 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
     private void updateHremove(BinaryNode node) {
         int heightRight = -1;
         int heightLeft = -1;
-        if (node.parent == null) {
-            return;
-        }
-        if (node.parent.left != null) {
-            heightLeft = node.parent.left.height;
-        }
-        if (node.parent.right != null) {
-            heightRight = node.parent.right.height;
-        }
-
-        if (heightLeft != -1 || heightRight != -1) {
-            return;
-        } else {
-            while (node != null) {
-                node.height -= 1;
-                node = node.parent;
+        do {
+            if (node.parent == null) {
+                return;
             }
-        }
+            if (node.parent.left != null) {
+                heightLeft = node.parent.left.height;
+            }
+            if (node.parent.right != null) {
+                heightRight = node.parent.right.height;
+            }
+
+            if (heightLeft != -1 || heightRight != -1)
+                return;
+            node.parent.height -= 1;
+            node = node.parent;
+        } while (node != null);
 
 
     }
@@ -139,8 +135,6 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
             }
             updateHremove(node);
             balance(node.parent);
-
-
         }
     }
 
@@ -338,9 +332,9 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
                     rotateRight(node);
 
                 } else {
-                    System.out.println("ELSE "+nL+" "+nR+" "+nLL+" "+nLR);
-                    //rotateLeft(node.left);//---------
-                    //rotateRight(node);//---------------------------------------------------
+                    //System.out.println("ELSE "+nL+" "+nR+" "+nLL+" "+nLR);
+                    rotateLeft(node.left);//---------
+                    rotateRight(node);//---------------------------------------------------
                     //doubleWithLeftChild(node);
                 }
             } else if (nR - nL > 1) {
@@ -349,9 +343,9 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
 
                     rotateLeft(node);
                 } else {
-                    System.out.println("ELSE");
-                    //rotateRight(node.right);//---------
-                    //rotateLeft(node);//---------------------------------------------------
+                    //System.out.println("ELSE");
+                    rotateRight(node.right);//---------
+                    rotateLeft(node);//---------------------------------------------------
                     //doubleWithRightChild(node);
                 }
             }

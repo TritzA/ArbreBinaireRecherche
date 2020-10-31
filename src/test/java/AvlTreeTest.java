@@ -302,7 +302,7 @@ class AvlTreeTest {
         ArrayList<Double> Xs = new ArrayList<>();
         ArrayList<Double> Ys = new ArrayList<>();
 
-        assertTimeoutPreemptively(Duration.ofSeconds(2), () -> {
+        assertTimeoutPreemptively(Duration.ofSeconds(3), () -> {
             for (int listSize = increaseRate; listSize < maxSize; listSize += increaseRate) {
                 TreeSet<Integer> javaTree = new TreeSet<>();
                 AvlTree<Integer> tree = new AvlTree<>();
