@@ -290,13 +290,13 @@ class AvlTreeTest {
 
     @Test
     public void timeComplexity() throws IOException {
-        final int increaseRate = 50000;//500000;
-        final int maxSize = 600000;//6000000;
+        final int increaseRate = 500000;//500 000;
+        final int maxSize = 6000000;//6 000 000;
 
         ArrayList<Double> Xs = new ArrayList<>();
         ArrayList<Double> Ys = new ArrayList<>();
 
-        assertTimeoutPreemptively(Duration.ofSeconds(3000), () -> {
+        assertTimeoutPreemptively(Duration.ofSeconds(3), () -> {//120
             for (int listSize = increaseRate; listSize < maxSize; listSize += increaseRate) {
                 TreeSet<Integer> javaTree = new TreeSet<>();
                 AvlTree<Integer> tree = new AvlTree<>();

@@ -25,9 +25,8 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
         if (root == null) {//put the value at the root if the tree is empty
             root = new BinaryNode<ValueType>(value, null);
         } else {
-
             do {
-                if (value.compareTo(node.value) < 0) {//or <= and value!=node.value //search the variable by going to the left
+                if (value.compareTo(node.value) < 0) {//search the variable by going to the left
                     if (node.left == null) {
                         node.left = new BinaryNode<>(value, node);
                         findPlace = true;
@@ -45,40 +44,40 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
                     return;
                 }
             } while (!findPlace);
-            updateHadd(node);
-            balance(node.parent);
+            updateHeightAdd(node);//add one to parent height
+            balance(node);//balance the tree if he needs rotations
+            if (node.parent != null) {
+                desperateMeasureAdd(node);
+            }
         }
     }
 
-    private void updateHadd(BinaryNode node) {
+    private void desperateMeasureAdd(BinaryNode node) {
+        if (node.parent.left != null && node.parent.right != null) {
+            if (node.value != node.parent.left.value && node.value != node.parent.right.value) {
+                node = node.parent;
+                while (node != null) {
+                    node.height--;
+                    node = node.parent;
+                }
+            }
+        } else if (node.height + 1 != node.parent.height) {
+            node = node.parent;
+            while (node != null) {
+                node.height--;
+                node = node.parent;
+            }
+        }
+    }
+
+
+    private void updateHeightAdd(BinaryNode node) {
         int i = 1;
         while (node != null) {
             node.height = i;
             node = node.parent;
             i++;
         }
-    }
-
-    private void updateHremove(BinaryNode node) {
-        //System.out.println(node.value);
-        do {
-
-            if (node.parent == null) {
-                return;
-            }
-            if (node.parent.left != null) {
-                if (node.parent.height - 1 == node.parent.left.height)
-                    return;
-            }
-            if (node.parent.right != null) {
-                if (node.parent.height - 1 == node.parent.right.height)
-                    return;
-            }
-            node.parent.height -= 1;
-            node = node.parent;
-        } while (node != null);
-
-
     }
 
     /**
@@ -91,35 +90,32 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      */
     public void remove(ValueType value) {
         BinaryNode<ValueType> node = this.root;
+        if (root == null)
+            return;
         boolean find = false;
         boolean lastLeft = true;
-        if (this.root == null) {
-            return;
-        }
         if (this.root.value.equals(value)) {//if the root is the value, remove it
             this.root = null;
         } else {
             while (!find) {
+                if (node == null) {//catches if remove doesn't exist
+                    return;
+                }
                 if (node.value.equals(value)) {//if we find the value, remove it
-                    //System.out.println("ici" + node.value);
                     if (lastLeft) {
-                        if (node.left != null || node.right != null) {
+                        if (node.left != null || node.right != null)
                             node.parent.left.value = reassignOnRemove(node);
-                        } else {
+                        else {
                             node.parent.left = null;
                         }
                     } else {
-                        if (node.left != null || node.right != null) {
+                        if (node.left != null || node.right != null)
                             node.parent.right.value = reassignOnRemove(node);
-                        } else {
+                        else {
                             node.parent.right = null;
                         }
                     }
                     find = true;
-
-                } else if (node == null) {//get potential error
-                    //System.out.println("Error : Try to remove an element missing from the tree");
-                    return;
 
                 } else if (value.compareTo(node.value) < 0) {//search the variable by going to the left
                     node = node.left;
@@ -132,9 +128,33 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
 
 
             }
-            updateHremove(node);
+            updateHeightRemove(node);
             balance(node.parent);
+            updateHeightRemove(node);
         }
+    }
+
+    private void updateHeightRemove(BinaryNode node) {
+        Boolean a;
+        do {
+            a = false;
+            if (node.parent == null) {
+                return;
+            }
+            if (node.parent.left != null) {
+                if (node.parent.height - 1 == node.parent.left.height)
+                    a = true;
+            }
+            if (node.parent.right != null) {
+                if (node.parent.height - 1 == node.parent.right.height)
+                    a = true;
+            }
+            if (!a) {
+                if (node.parent.height != 0)
+                    node.parent.height -= 1;
+            }
+            node = node.parent;
+        } while (node != null);
     }
 
     private ValueType reassignOnRemove(BinaryNode node) {
@@ -148,6 +168,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
             node.parent.left = null;
             return n;
         } else if (node.left != null) {
+
             while (node.left != null) {//going to the left util we got a null
                 node = node.left;
             }
@@ -155,6 +176,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
             node.parent.left = null;
             return n;
         } else if (node.right != null) {
+
             while (node.right != null) {//going to the left util we got a null
                 node = node.right;
             }
@@ -201,7 +223,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
     public int getHeight() {
         if (root == null)
             return -1;
-        return root.height;//O ( log n )??
+        return root.height;
     }
 
 
@@ -246,11 +268,11 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
                 stack.push(node);
                 node = node.left;
             }
-
             node = stack.pop();
             listValue.add((ValueType) node.value);
             node = node.right;
         }
+
         return listValue;
     }
 
@@ -301,6 +323,8 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      */
     private void balance(BinaryNode<ValueType> node) {
         int nL = -1, nR = -1, nLL = -1, nLR = -1, nRR = -1, nRL = -1;
+
+        //set all values
         while (node != null) {
             if (node.left != null) {
                 nL = node.left.height;
@@ -311,7 +335,6 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
                     nLL = node.left.left.height;
                 }
             }
-
             if (node.right != null) {
                 nR = node.right.height;
                 if (node.right.right != null) {
@@ -322,23 +345,17 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
                 }
             }
 
-
+            // checking for rotation
             if (nL - nR > 1) {
-                if (nLL >= nLR) {
-                    rotateRight(node);
-
-                } else {
+                if (nLL < nLR) {
                     rotateLeft(node.left);
-                    rotateRight(node);
                 }
+                rotateRight(node);
             } else if (nR - nL > 1) {
-                if (nRR >= nRL) {
-
-                    rotateLeft(node);
-                } else {
+                if (nRR < nRL) {
                     rotateRight(node.right);
-                    rotateLeft(node);
                 }
+                rotateLeft(node);
             }
             node = node.parent;
         }
@@ -360,7 +377,6 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
             node1.left = new BinaryNode<>(node1.value, node1);
             node1.left.left = n;
             node1.left.left.parent = node1.left;
-
             node1.left.height = n.height + 1;
         }
         node1.value = node1.right.value;
@@ -374,10 +390,10 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
             node1.left.right = n;
             node1.left.right.parent = node1.left;
 
-            node1.left.height = n.height + 1;
+            if (node1.left.height < n.height + 1)
+                node1.left.height = n.height + 1;
         }
 
-        node1.height -= 1;
     }
 
     /**
@@ -408,11 +424,10 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
             node1.left.parent = node1;
             node1.right.left = n;
             node1.right.left.parent = node1.right;
-
-            node1.right.height = n.height + 1;
+            if (node1.right.height < n.height + 1)
+                node1.right.height = n.height + 1;
         }
 
-        node1.height -= 1;
     }
 
     static private class BinaryNode<ValueType> {
