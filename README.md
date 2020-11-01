@@ -25,8 +25,8 @@ IDE : [Intellij education](https://www.jetbrains.com/fr-fr/idea/download/#sectio
 
 Complexité logarithmique de notre algorithme.
 
-![alt text](https://github.com/TritzA/ArbreBinaireRecherche/blob/master/images/complexite_avl_4.PNG)
+![alt text](https://github.com/TritzA/ArbreBinaireRecherche/blob/master/images/complexite_avl_5.PNG)
 
 Complexité logarithmique de notre algorithme.
 
-![alt text](https://github.com/TritzA/ArbreBinaireRecherche/blob/master/images/complexite_avl_5.PNG)
+![alt text](https://github.com/TritzA/ArbreBinaireRecherche/blob/master/images/complexite_avl_4.PNG)
