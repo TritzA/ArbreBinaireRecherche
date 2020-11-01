@@ -23,10 +23,10 @@ IDE : [Intellij education](https://www.jetbrains.com/fr-fr/idea/download/#sectio
 
 ## Représentation
 
-à revoir Complexité contante de notre algorithme.
+Complexité logarithmique de notre algorithme.
 
-![alt text](https://github.com/TritzA/)
+![alt text](https://github.com/TritzA/ArbreBinaireRecherche/blob/master/images/complexite_avl_5.PNG)
 
-à revoir Deux autres exemples que notre algorithme a généré.
+Complexité logarithmique de notre algorithme.
 
-![alt text](https://github.com/TritzA/)
+![alt text](https://github.com/TritzA/ArbreBinaireRecherche/blob/master/images/complexite_avl_4.PNG)
