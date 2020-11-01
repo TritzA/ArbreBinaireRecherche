@@ -22,18 +22,20 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
     public void add(ValueType value) {
         BinaryNode<ValueType> node = root;
         boolean findPlace = false;
+        int compareTo;
         if (root == null) {//put the value at the root if the tree is empty
             root = new BinaryNode<ValueType>(value, null);
         } else {
             do {
-                if (value.compareTo(node.value) < 0) {//search the variable by going to the left
+                compareTo = value.compareTo(node.value);
+                if (compareTo < 0) {//search the variable by going to the left
                     if (node.left == null) {
                         node.left = new BinaryNode<>(value, node);
                         findPlace = true;
                     } else {
                         node = node.left;
                     }
-                } else if (value.compareTo(node.value) > 0) {//search the variable by going to the right
+                } else if (compareTo > 0) {//search the variable by going to the right
                     if (node.right == null) {
                         node.right = new BinaryNode<>(value, node);
                         findPlace = true;
@@ -41,7 +43,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
                         node = node.right;
                     }
                 } else {
-                    return;
+                    return;// if the element is already in the tree
                 }
             } while (!findPlace);
             updateHeightAdd(node);//add one to parent height
@@ -94,14 +96,16 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
             return;
         boolean find = false;
         boolean lastLeft = true;
+        int compareTo;
         if (this.root.value.equals(value)) {//if the root is the value, remove it
             this.root = null;
         } else {
             while (!find) {
-                if (node == null) {//catches if remove doesn't exist
+                if (node == null) {
                     return;
                 }
-                if (node.value.equals(value)) {//if we find the value, remove it
+                compareTo = value.compareTo(node.value);
+                if (compareTo == 0) {//if we find the value, remove it
                     if (lastLeft) {
                         if (node.left != null || node.right != null)
                             node.parent.left.value = reassignOnRemove(node);
@@ -117,11 +121,11 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
                     }
                     find = true;
 
-                } else if (value.compareTo(node.value) < 0) {//search the variable by going to the left
+                } else if (compareTo < 0) {//search the variable by going to the left
                     node = node.left;
                     lastLeft = true;
 
-                } else if (value.compareTo(node.value) > 0) {//search the variable by going to the right
+                } else if (compareTo > 0) {//search the variable by going to the right
                     node = node.right;
                     lastLeft = false;
                 }
@@ -135,7 +139,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
     }
 
     private void updateHeightRemove(BinaryNode node) {
-        Boolean a;
+        boolean a;
         do {
             a = false;
             if (node.parent == null) {
@@ -154,7 +158,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
                     node.parent.height -= 1;
             }
             node = node.parent;
-        } while (node != null);
+        } while (true);
     }
 
     private ValueType reassignOnRemove(BinaryNode node) {
@@ -197,15 +201,20 @@ public class AvlTree<ValueType extends Comparable<? super ValueType>> {
      */
     public boolean contains(ValueType value) {
         BinaryNode<ValueType> node = root;
+        int compareTo;
 
         while (true) {
+
             if (node == null) {//if we finally get a null
                 return false;
 
-            } else if (value.compareTo(node.value) < 0) {//search the variable by going to the left
+            }
+
+            compareTo = value.compareTo(node.value);
+            if (compareTo < 0) {//search the variable by going to the left
                 node = node.left;
 
-            } else if (value.compareTo(node.value) > 0) {//search the variable by going to the right
+            } else if (compareTo > 0) {//search the variable by going to the right
                 node = node.right;
 
             } else {//final case (else if (node.value == value))

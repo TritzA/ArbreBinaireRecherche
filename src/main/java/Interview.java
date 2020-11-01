@@ -30,15 +30,18 @@ public class Interview<ValueType extends Comparable<? super ValueType>> {
     private int binarySearchOnColumn(ValueType[][] mat, ValueType value) {
         int start = 0;
         int end = mat.length - 1;
+        int mid, compareTo;
         while (start <= end) {
-            int mid = (start + end) / 2;
-            if (mat[mid][0].equals(value)) {
+            mid = (start + end) / 2;
+            compareTo = mat[mid][0].compareTo(value);
+            if (compareTo == 0) {
                 return -2;//if value is on the column [0]
-            } else if (mat[mid][0].compareTo(value) < 0) {
+            } else if (compareTo < 0) {
                 start = mid + 1;
             } else {
                 end = mid - 1;
             }
+
         }
         return end;
     }
@@ -47,11 +50,13 @@ public class Interview<ValueType extends Comparable<? super ValueType>> {
     private boolean binarySearchOnLine(ValueType[][] mat, ValueType value, int i) {
         int start = 1;//the 0 case is already covered in the binarySearchOnColumn(matrix, value)
         int end = mat[i].length - 1;
+        int mid, compareTo;
         while (start <= end) {
-            int mid = (start + end) / 2;
-            if (mat[i][mid].equals(value)) {
+            mid = (start + end) / 2;
+            compareTo = mat[i][mid].compareTo(value);
+            if (compareTo == 0) {
                 return true;
-            } else if (mat[i][mid].compareTo(value) < 0) {
+            } else if (compareTo < 0) {
                 start = mid + 1;
             } else {
                 end = mid - 1;
