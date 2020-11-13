@@ -11,7 +11,7 @@ Partenaire : [Maxence Lefevre](https://github.com/Solonioka)
 
 ## Objectifs
 
-Implémenter un arbre binaire à faible complexité algorithmique et l'utiliser pour résoudre un problème.
+Implémenter un arbre binaire selon la complexité algorithmique demandée et l'utiliser pour résoudre un problème.
 
 ## Utilisations
 
