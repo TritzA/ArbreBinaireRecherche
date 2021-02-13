@@ -1,4 +1,4 @@
-# ArbreBinaire
+# Arbre-Binaire
 
 Implémentation et utilisation d'un arbre binaire de recherche.
 
